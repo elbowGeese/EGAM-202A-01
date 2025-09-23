@@ -3,10 +3,16 @@ using UnityEngine;
 public class MenuToggle : MonoBehaviour
 {
     public GameObject[] menus;
+    public int startingMenu = -1;
     
     void Start()
     {
         CloseAllMenus();
+
+        if(startingMenu != -1)
+        {
+            menus[startingMenu].SetActive(true);
+        }
     }
 
     void CloseAllMenus()
