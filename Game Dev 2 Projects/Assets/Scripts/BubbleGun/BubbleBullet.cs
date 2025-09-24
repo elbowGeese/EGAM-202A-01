@@ -6,8 +6,6 @@ public class BubbleBullet : MonoBehaviour
     private Rigidbody rb;
 
     public float speed = 5f;
-    public AnimationCurve sizeToDamage;
-    public AnimationCurve sizeToMass;
     public GameObject popParticle;
 
     private void Start()
@@ -17,7 +15,11 @@ public class BubbleBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        // if collider has health script, do damage to it
+        // if collider has target script, do damage to it
+        if(collider.GetComponent<Target>())
+        {
+            collider.GetComponent<Target>().HitTarget();
+        }
 
         // pop
         Pop();

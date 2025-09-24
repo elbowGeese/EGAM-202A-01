@@ -46,15 +46,18 @@ public class BubbleGumGun : MonoBehaviour
         if (currentBubble)
         {
             currentBubble.transform.localScale = new Vector3(currentSize, currentSize, currentSize);
-            currentBubble.transform.position = transform.position;
+            currentBubble.transform.position = transform.position + (transform.forward * (currentSize / 2));
         }
     }
 
     private void ReleaseBubble()
     {
-        currentBubble.transform.parent = null;
-        currentBubble.GetComponent<BubbleBullet>().Release(transform.forward);
-        currentBubble = null;
+        if (currentBubble)
+        {
+            currentBubble.transform.parent = null;
+            currentBubble.GetComponent<BubbleBullet>().Release(transform.forward);
+            currentBubble = null;
+        }
     }
 
     private void ResetFiringTimer()
