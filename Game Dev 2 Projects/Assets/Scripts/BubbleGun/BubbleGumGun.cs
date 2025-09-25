@@ -11,6 +11,8 @@ public class BubbleGumGun : MonoBehaviour
     public GameObject bubblePrefab;
     private GameObject currentBubble;
 
+    public ParticleSystem blowingParticles;
+
     void Start()
     {
         bggInputs = GetComponent<BubbleGumGunInputs>();
@@ -48,6 +50,18 @@ public class BubbleGumGun : MonoBehaviour
             currentBubble.transform.localScale = new Vector3(currentSize, currentSize, currentSize);
             currentBubble.transform.position = transform.position + (transform.forward * (currentSize / 2));
         }
+
+        if (blowingParticles)
+        {
+            if (!blowingParticles.isPlaying && currentSize < sizeOverTime.keys[sizeOverTime.keys.Length - 1].value)
+            {
+                blowingParticles.Play();
+            }
+            else if (blowingParticles.isPlaying && currentSize >= sizeOverTime.keys[sizeOverTime.keys.Length - 1].value)
+            {
+                blowingParticles.Stop();
+            }
+        }
     }
 
     private void ReleaseBubble()
@@ -57,6 +71,14 @@ public class BubbleGumGun : MonoBehaviour
             currentBubble.transform.parent = null;
             currentBubble.GetComponent<BubbleBullet>().Release(transform.forward);
             currentBubble = null;
+        }
+
+        if (blowingParticles)
+        {
+            if (blowingParticles.isPlaying)
+            {
+                blowingParticles.Stop();
+            }
         }
     }
 
