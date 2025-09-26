@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819fc077b61907248842a892cd412cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
+  points: 10
   confettiParticle: {fileID: 0}
 --- !u!114 &6816238698561043627
 MonoBehaviour:
