@@ -52,7 +52,7 @@ public class Timer : MonoBehaviour
         ScoreHandler score = FindFirstObjectByType<ScoreHandler>();
         score.SubmitScoreToData();
 
-        SceneChanges sceneChanges = FindFirstObjectByType<SceneChanges>();
-        sceneChanges.LoadToSceneByIndex(0);
+        //SceneChanges sceneChanges = FindFirstObjectByType<SceneChanges>();
+        //sceneChanges.LoadToSceneByIndex(2);
     }
 }
