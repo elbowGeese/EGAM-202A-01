@@ -17,8 +17,9 @@ public class ShadowSize : MonoBehaviour
 
     void Update()
     {
+        if (target == null) { Destroy(gameObject); }
+
         float currentDist = GetDist();
-        Debug.Log(currentDist);
 
         float xSize = (startSize.x / (currentDist + 1)) * sizeMultiplier;
         float zSize = (startSize.z / (currentDist + 1)) * sizeMultiplier;
@@ -29,6 +30,7 @@ public class ShadowSize : MonoBehaviour
 
     private float GetDist()
     {
+        if (target == null) { Destroy(gameObject); }
         return Vector3.Distance(transform.position, target.position);
     }
 }

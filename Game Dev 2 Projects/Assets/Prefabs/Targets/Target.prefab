@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81af9d2dcce04e49a27282d468bd634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shadow
+  setYEveryFrame: 0
 --- !u!1 &7656468207026069504
 GameObject:
   m_ObjectHideFlags: 0

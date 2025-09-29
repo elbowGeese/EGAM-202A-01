@@ -23,6 +23,12 @@ public class BubbleBullet : MonoBehaviour
 
         // pop
         Pop();
+
+        // if collider has a bird script, fell the bird
+        if (collider.GetComponent<Bird>())
+        {
+            collider.GetComponent<Bird>().HitBird();
+        }
     }
 
     private void Pop()
