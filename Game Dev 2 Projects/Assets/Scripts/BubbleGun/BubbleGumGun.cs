@@ -12,6 +12,7 @@ public class BubbleGumGun : MonoBehaviour
     private GameObject currentBubble;
 
     public ParticleSystem blowingParticles;
+    public AudioSource blowingSound;
 
     void Start()
     {
@@ -40,6 +41,8 @@ public class BubbleGumGun : MonoBehaviour
                 ResetFiringTimer();
             }
         }
+
+        UpdateBlowingPitch();
     }
 
     private void GrowBubble()
@@ -56,10 +59,12 @@ public class BubbleGumGun : MonoBehaviour
             if (!blowingParticles.isPlaying && currentSize < sizeOverTime.keys[sizeOverTime.keys.Length - 1].value)
             {
                 blowingParticles.Play();
+                blowingSound.Play();
             }
             else if (blowingParticles.isPlaying && currentSize >= sizeOverTime.keys[sizeOverTime.keys.Length - 1].value)
             {
                 blowingParticles.Stop();
+                blowingSound.Stop();
             }
         }
     }
@@ -78,6 +83,7 @@ public class BubbleGumGun : MonoBehaviour
             if (blowingParticles.isPlaying)
             {
                 blowingParticles.Stop();
+                blowingSound.Stop();
             }
         }
     }
@@ -85,5 +91,17 @@ public class BubbleGumGun : MonoBehaviour
     private void ResetFiringTimer()
     {
         firingTimer = 0f;
+    }
+
+    private void UpdateBlowingPitch()
+    {
+        if (blowingSound.isPlaying)
+        {
+            blowingSound.pitch = 1f + (sizeOverTime.Evaluate(firingTimer) / 2);
+        }
+        else if(!blowingSound.isPlaying && blowingSound.pitch != 1f)
+        {
+            blowingSound.pitch = 1f;
+        }
     }
 }

@@ -8,6 +8,8 @@ public class BubbleBullet : MonoBehaviour
     public float speed = 5f;
     public GameObject popParticle;
 
+    public AudioClip[] popSounds;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,6 +39,10 @@ public class BubbleBullet : MonoBehaviour
         {
             Transform pop = Instantiate(popParticle).transform;
             pop.position = transform.position;
+
+            AudioSource popAudio = pop.GetComponent<AudioSource>();
+            popAudio.clip = popSounds[Random.Range(0, popSounds.Length)];
+            popAudio.Play();
         }
 
         Destroy(gameObject);

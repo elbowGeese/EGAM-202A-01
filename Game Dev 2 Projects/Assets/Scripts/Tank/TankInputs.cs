@@ -7,6 +7,9 @@ public class TankInputs : MonoBehaviour
     public Camera cam;
     private InputAction movementAction;
 
+    public LayerMask layerToExclude;
+    private LayerMask finalLayerMask;
+
     // properties
     private Vector3 reticlePosition;
     public Vector3 ReticlePosition {  get { return reticlePosition; } }
@@ -23,6 +26,8 @@ public class TankInputs : MonoBehaviour
     private void Start()
     {
         movementAction = InputSystem.actions.FindAction("Movement");
+
+        finalLayerMask = ~layerToExclude;
     }
 
     void Update()
@@ -44,7 +49,7 @@ public class TankInputs : MonoBehaviour
         Ray screenRay = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         RaycastHit hit;
-        if(Physics.Raycast(screenRay, out hit))
+        if(Physics.Raycast(screenRay, out hit, 1000f, finalLayerMask))
         {
             reticlePosition = hit.point;
             reticleNormal = hit.normal;
