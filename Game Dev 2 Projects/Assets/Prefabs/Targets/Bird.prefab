@@ -787,6 +787,7 @@ GameObject:
   - component: {fileID: 5004534051265226704}
   - component: {fileID: 6495487500253437223}
   - component: {fileID: 6907003323684723425}
+  - component: {fileID: 2319690214755458296}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -849,9 +850,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd39711e089460c4697b40140e60d792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateFollowWaypoints
-  xRange: {x: -21, y: 21}
+  xRange: {x: -13, y: 13}
   yRange: {x: 1.8, y: 2.5}
-  zRange: {x: -21, y: 21}
+  zRange: {x: -13, y: 13}
   speed: 1
 --- !u!114 &6907003323684723425
 MonoBehaviour:
@@ -865,6 +866,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a811eaad5c0ce4bab96a6fa21f6d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bird
+  minTime: 1
+  maxTime: 4
+--- !u!95 &2319690214755458296
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7231976332305456820}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 972a92a61431cfa47b638233061206b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7794135429105098215
 GameObject:
   m_ObjectHideFlags: 0
