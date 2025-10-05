@@ -14,6 +14,8 @@ public class BubbleGumGun : MonoBehaviour
     public ParticleSystem blowingParticles;
     public AudioSource blowingSound;
 
+    public bool isPaused = false;
+
     void Start()
     {
         bggInputs = GetComponent<BubbleGumGunInputs>();
@@ -21,6 +23,13 @@ public class BubbleGumGun : MonoBehaviour
 
     void Update()
     {
+        if (isPaused)
+        {
+            if (currentBubble != null) { ReleaseBubble(); }
+
+            return;
+        }
+
         if (bggInputs)
         {
             if (bggInputs.Firing)

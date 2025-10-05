@@ -13,6 +13,10 @@ public class Timer : MonoBehaviour
 
     public Slider slider;
 
+    public bool isPaused = true;
+
+    public CameraHandler cameraHandler;
+
     private void Start()
     {
         time = timeInSeconds;
@@ -21,6 +25,8 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
+        if (isPaused) return;
+
         if (!timeIsUp)
         {
             time -= Time.deltaTime;
@@ -44,6 +50,7 @@ public class Timer : MonoBehaviour
         // warning
         timeIsUp = true;
         timesUpAnim.SetTrigger("timesUp");
+        cameraHandler.SetState(CameraHandler.CameraState.OVERVIEW);
 
         // wait
         yield return new WaitForSeconds(closingTime);

@@ -16,6 +16,7 @@ public class TankController : MonoBehaviour
     [Header("Reticle Properties")]
     public Transform reticleTransform;
 
+    public bool isPaused = false;
 
     // components
     private Rigidbody rb;
@@ -29,6 +30,8 @@ public class TankController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(isPaused) return;
+
         if(rb && input)
         {
             HandleMovement();
