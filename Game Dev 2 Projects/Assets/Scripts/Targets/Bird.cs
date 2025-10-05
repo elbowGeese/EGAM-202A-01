@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bird : MonoBehaviour
@@ -6,9 +7,20 @@ public class Bird : MonoBehaviour
     public float minTime, maxTime;
     private float timer;
 
+    private GoToPlayer goToPlayer;
+    private CreateFollowWaypoints followWaypoints;
+
+    public float rageTime = 0.2f;
+    public ParticleSystem poopParticle;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
+        goToPlayer = GetComponent<GoToPlayer>();
+        goToPlayer.enabled = false;
+        followWaypoints = GetComponent<CreateFollowWaypoints>();
+        followWaypoints.enabled = true;
+
         ResetTimer();
     }
 
@@ -30,13 +42,32 @@ public class Bird : MonoBehaviour
 
     public void HitBird()
     {
-        GetComponent<CreateFollowWaypoints>().enabled = false;
-        transform.rotation = Quaternion.Euler(180f, transform.rotation.y, transform.rotation.z);
+        StartCoroutine(HitPlayerBack());
+    }
+
+    IEnumerator HitPlayerBack()
+    {
+        followWaypoints.enabled = false;
+
+        yield return new WaitForSeconds(rageTime);
+
+        goToPlayer.enabled = true;
+        goToPlayer.startPosition = transform.position;
+
+        yield return new WaitForSeconds(goToPlayer.timeToReach - 0.5f);
+
+        poopParticle.Play();
+
+        yield return new WaitForSeconds(0.5f);
 
         FailHandler fh = FindFirstObjectByType<FailHandler>();
-        if(fh != null)
+        if (fh != null)
         {
             fh.EnterFailState();
         }
+
+        goToPlayer.enabled = false;
+        followWaypoints.enabled = true;
+        followWaypoints.BeginNewFollow();
     }
 }

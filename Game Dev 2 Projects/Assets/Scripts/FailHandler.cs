@@ -2,24 +2,30 @@ using System.Collections;
 using UnityEngine;
 
 public class FailHandler : MonoBehaviour
-{
+{   
     public Animator hitBirdDisplayAnim;
-    public float closingTime = 2f;
+    public float stunTime = 1f;
 
-    public CameraHandler cameraHandler;
+    public TankController tankController;
+    public BubbleGumGun bubbleGumGun;
 
     public void EnterFailState()
     {
         StartCoroutine(FailState());
     }
 
+    // stuns player for a second
     IEnumerator FailState()
     {
-        hitBirdDisplayAnim.SetTrigger("timesUp");
-        cameraHandler.SetState(CameraHandler.CameraState.OVERVIEW);
+        // set player controls to paused
+        tankController.SetStun(true);
+        bubbleGumGun.isPaused = true;
 
-        yield return new WaitForSeconds(closingTime);
+        // wait
+        yield return new WaitForSeconds(stunTime);
 
-        GetComponent<SceneChanges>().LoadToSceneByIndex(3);
+        // unlock player controls
+        tankController.SetStun(false);
+        bubbleGumGun.isPaused = false;
     }
 }

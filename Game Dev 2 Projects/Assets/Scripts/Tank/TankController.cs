@@ -21,11 +21,13 @@ public class TankController : MonoBehaviour
     // components
     private Rigidbody rb;
     private TankInputs input;
+    private Animator anim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<TankInputs>();
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -69,5 +71,11 @@ public class TankController : MonoBehaviour
         {
             reticleTransform.position = input.ReticlePosition;
         }
+    }
+
+    public void SetStun(bool isStunned)
+    {
+        isPaused = isStunned;
+        anim.SetBool("isStunned", isStunned);
     }
 }

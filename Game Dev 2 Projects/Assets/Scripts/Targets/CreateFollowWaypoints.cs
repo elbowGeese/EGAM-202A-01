@@ -19,8 +19,7 @@ public class CreateFollowWaypoints : MonoBehaviour
 
         if(dist < 0.1f)
         {
-            waypoint = CreateRandomWaypoint();
-            transform.LookAt(waypoint);
+            BeginNewFollow();
             return;
         }
 
@@ -38,5 +37,11 @@ public class CreateFollowWaypoints : MonoBehaviour
         float y = Random.Range(yRange.x, yRange.y);
         float z = Random.Range(zRange.x, zRange.y);
         return new Vector3(x, y, z);
+    }
+
+    public void BeginNewFollow()
+    {
+        waypoint = CreateRandomWaypoint();
+        transform.LookAt(waypoint);
     }
 }
