@@ -9,9 +9,16 @@ public class FailHandler : MonoBehaviour
     public TankController tankController;
     public BubbleGumGun bubbleGumGun;
 
+    private Coroutine stunCoroutine;
+
     public void EnterFailState()
     {
-        StartCoroutine(FailState());
+        if (stunCoroutine != null)
+        {
+            StopCoroutine(stunCoroutine);
+        }
+
+        stunCoroutine = StartCoroutine(FailState());
     }
 
     // stuns player for a second

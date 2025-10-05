@@ -13,6 +13,10 @@ public class Bird : MonoBehaviour
     public float rageTime = 0.2f;
     public ParticleSystem poopParticle;
 
+    private AudioSource birdAudio;
+    public AudioClip[] birdSounds;
+    public AudioClip squelchSound;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -20,6 +24,7 @@ public class Bird : MonoBehaviour
         goToPlayer.enabled = false;
         followWaypoints = GetComponent<CreateFollowWaypoints>();
         followWaypoints.enabled = true;
+        birdAudio = GetComponent<AudioSource>();
 
         ResetTimer();
     }
@@ -42,6 +47,9 @@ public class Bird : MonoBehaviour
 
     public void HitBird()
     {
+        birdAudio.clip = birdSounds[Random.Range(0,birdSounds.Length)];
+        birdAudio.Play();
+
         StartCoroutine(HitPlayerBack());
     }
 
@@ -57,6 +65,8 @@ public class Bird : MonoBehaviour
         yield return new WaitForSeconds(goToPlayer.timeToReach - 0.5f);
 
         poopParticle.Play();
+        birdAudio.clip = squelchSound;
+        birdAudio.Play();
 
         yield return new WaitForSeconds(0.5f);
 

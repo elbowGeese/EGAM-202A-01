@@ -23,6 +23,8 @@ public class TankController : MonoBehaviour
     private TankInputs input;
     private Animator anim;
 
+    public ParticleSystem stunParticle;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -77,5 +79,6 @@ public class TankController : MonoBehaviour
     {
         isPaused = isStunned;
         anim.SetBool("isStunned", isStunned);
+        if (isStunned) { stunParticle.Play(); }
     }
 }
