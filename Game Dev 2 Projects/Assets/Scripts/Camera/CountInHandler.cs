@@ -8,6 +8,8 @@ public class CountInHandler : MonoBehaviour
     public TankController tankController;
     public Timer timer;
 
+    public AudioSource blipAudio;
+
     void Start()
     {
         camHandler.SetState(CameraHandler.CameraState.OVERVIEW);
@@ -24,5 +26,17 @@ public class CountInHandler : MonoBehaviour
         bubbleGumGun.isPaused = false;
         tankController.isPaused = false;
         timer.isPaused = false;
+    }
+
+    public void PlayBlipSound()
+    {
+        blipAudio.pitch = 1f;
+        blipAudio.Play();
+    }
+
+    public void PlayHigherBlipSound()
+    {
+        blipAudio.pitch = 1.5f;
+        blipAudio.Play();
     }
 }

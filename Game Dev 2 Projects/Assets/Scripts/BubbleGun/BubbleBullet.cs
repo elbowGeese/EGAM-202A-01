@@ -17,10 +17,13 @@ public class BubbleBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        bool breakStreak = true;
+
         // if collider has target script, do damage to it
         if(collider.GetComponent<Target>())
         {
             collider.GetComponent<Target>().HitTarget();
+            breakStreak = false;
         }
 
         // pop
@@ -31,6 +34,8 @@ public class BubbleBullet : MonoBehaviour
         {
             collider.GetComponent<Bird>().HitBird();
         }
+
+        if (breakStreak) { GameObject.FindFirstObjectByType<ScoreHandler>().BreakStreak(); }
     }
 
     private void Pop()

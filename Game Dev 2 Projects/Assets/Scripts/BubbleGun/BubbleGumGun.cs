@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BubbleGumGunInputs))]
 public class BubbleGumGun : MonoBehaviour
@@ -14,6 +15,8 @@ public class BubbleGumGun : MonoBehaviour
     public ParticleSystem blowingParticles;
     public AudioSource blowingSound;
 
+    public Slider bubbleGrowthDisplay;
+
     public bool isPaused = false;
 
     void Start()
@@ -25,7 +28,11 @@ public class BubbleGumGun : MonoBehaviour
     {
         if (isPaused)
         {
-            if (currentBubble != null) { ReleaseBubble(); }
+            if (currentBubble != null) 
+            { 
+                ReleaseBubble();
+                UpdateBubbleGrowthDisplay();
+            }
 
             return;
         }
@@ -52,6 +59,7 @@ public class BubbleGumGun : MonoBehaviour
         }
 
         UpdateBlowingPitch();
+        UpdateBubbleGrowthDisplay();
     }
 
     private void GrowBubble()
@@ -112,5 +120,19 @@ public class BubbleGumGun : MonoBehaviour
         {
             blowingSound.pitch = 1f;
         }
+    }
+
+    private void UpdateBubbleGrowthDisplay()
+    {
+        if (!currentBubble) 
+        {
+            bubbleGrowthDisplay.value = 0f;
+            return;
+        }
+
+        float currentSize = sizeOverTime.Evaluate(firingTimer);
+        float endSize = sizeOverTime.keys[sizeOverTime.length - 1].value;
+
+        bubbleGrowthDisplay.value = currentSize / endSize;
     }
 }

@@ -17,6 +17,8 @@ public class Timer : MonoBehaviour
 
     public CameraHandler cameraHandler;
 
+    public AudioSource beepAudio;
+
     private void Start()
     {
         time = timeInSeconds;
@@ -52,8 +54,12 @@ public class Timer : MonoBehaviour
         timesUpAnim.SetTrigger("timesUp");
         cameraHandler.SetState(CameraHandler.CameraState.OVERVIEW);
 
+        beepAudio.Play();
+        yield return new WaitForSeconds(0.2f);
+        beepAudio.Play();
+
         // wait
-        yield return new WaitForSeconds(closingTime);
+        yield return new WaitForSeconds(closingTime - 0.2f);
 
         // close out
         ScoreHandler score = FindFirstObjectByType<ScoreHandler>();

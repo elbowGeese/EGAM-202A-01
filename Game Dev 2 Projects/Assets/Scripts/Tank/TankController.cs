@@ -24,6 +24,7 @@ public class TankController : MonoBehaviour
     private Animator anim;
 
     public ParticleSystem stunParticle;
+    public AudioSource stunAudio;
 
     void Start()
     {
@@ -79,6 +80,10 @@ public class TankController : MonoBehaviour
     {
         isPaused = isStunned;
         anim.SetBool("isStunned", isStunned);
-        if (isStunned) { stunParticle.Play(); }
+        if (isStunned) 
+        { 
+            stunParticle.Play();
+            stunAudio.Play();
+        }
     }
 }
