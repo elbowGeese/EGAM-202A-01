@@ -8,6 +8,8 @@ public class PacmanController : MonoBehaviour
     private enum MovementState { NONE, LEFT, RIGHT, UP, DOWN }
     private MovementState movementState;
 
+    public float speed = 5f;
+
     // REFERENCES
     private NavMeshAgent navMeshAgent;
     private InputAction moveAction;
@@ -53,27 +55,27 @@ public class PacmanController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 targetPos = transform.position;
+        Vector3 offset = Vector3.zero;
 
         switch (movementState)
         {
             case MovementState.LEFT:
-                targetPos.x -= 10f;
+                offset.x = -speed;
                 break;
             case MovementState.RIGHT:
-                targetPos.x += 10f;
+                offset.x = speed;
                 break;
             case MovementState.UP:
-                targetPos.z += 10f;
+                offset.z = speed;
                 break;
             case MovementState.DOWN:
-                targetPos.z -= 10f;
+                offset.z = -speed;
                 break;
             default:
                 Debug.Log("Pacman not moving or in unreadable state.");
                 return;
         }
 
-        navMeshAgent.destination = targetPos;
+        navMeshAgent.Move(offset);
     }
 }
