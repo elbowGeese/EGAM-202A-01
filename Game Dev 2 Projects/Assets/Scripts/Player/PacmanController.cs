@@ -25,7 +25,7 @@ public class PacmanController : MonoBehaviour
     void Update()
     {
         ReadInput();
-        Move();
+        Move(Time.deltaTime);
     }
 
     private void ReadInput()
@@ -53,23 +53,23 @@ public class PacmanController : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void Move(float timePassed)
     {
         Vector3 offset = Vector3.zero;
 
         switch (movementState)
         {
             case MovementState.LEFT:
-                offset.x = -speed;
+                offset.x = -speed * timePassed;
                 break;
             case MovementState.RIGHT:
-                offset.x = speed;
+                offset.x = speed * timePassed;
                 break;
             case MovementState.UP:
-                offset.z = speed;
+                offset.z = speed * timePassed;
                 break;
             case MovementState.DOWN:
-                offset.z = -speed;
+                offset.z = -speed * timePassed;
                 break;
             default:
                 Debug.Log("Pacman not moving or in unreadable state.");
