@@ -8,6 +8,15 @@ public class PowerUpHandler : MonoBehaviour
     public float poweredTime;
     private float timer;
 
+    private GhostBehaviour[] ghosts;
+    private ScoreHandler scoreHandler;
+
+    private void Start()
+    {
+        ghosts = FindObjectsByType<GhostBehaviour>(FindObjectsSortMode.None);
+        scoreHandler = FindFirstObjectByType<ScoreHandler>();
+    }
+
     private void Update()
     {
         if (isPoweredUp)
@@ -16,7 +25,7 @@ public class PowerUpHandler : MonoBehaviour
 
             if(timer > poweredTime)
             {
-                isPoweredUp = false;
+                PowerDown();
             }
         }
     }
@@ -25,5 +34,25 @@ public class PowerUpHandler : MonoBehaviour
     {
         isPoweredUp = true;
         timer = 0f;
+
+        scoreHandler.ghostStreak = 0;
+
+        foreach (GhostBehaviour ghost in ghosts)
+        {
+            ghost.state = GhostBehaviour.GhostState.SCATTER;
+        }
+    }
+
+    private void PowerDown()
+    {
+        isPoweredUp = false;
+
+        foreach (GhostBehaviour ghost in ghosts)
+        {
+            if(ghost.state == GhostBehaviour.GhostState.SCATTER)
+            {
+                ghost.state = GhostBehaviour.GhostState.CHASE;
+            }
+        }
     }
 }

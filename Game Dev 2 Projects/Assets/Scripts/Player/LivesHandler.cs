@@ -8,11 +8,13 @@ public class LivesHandler : MonoBehaviour
     // REFERENCES
     private PowerUpHandler powerUpHandler;
     private LivesDisplay livesDisplay;
+    private ScoreHandler scoreHandler;
 
     private void Start()
     {
         powerUpHandler = FindFirstObjectByType<PowerUpHandler>();
         livesDisplay = FindFirstObjectByType<LivesDisplay>();
+        scoreHandler = FindFirstObjectByType<ScoreHandler>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,6 +30,7 @@ public class LivesHandler : MonoBehaviour
                     break;
                 case GhostBehaviour.GhostState.SCATTER:
                     // eat
+                    scoreHandler.EatGhost();
                     ghostBehaviour.state = GhostBehaviour.GhostState.RETURN_HOME;
                     break;
                 default:

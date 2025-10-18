@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,20 +8,30 @@ public class GhostBehaviour : MonoBehaviour
     public enum GhostState { CHASE, SCATTER, RETURN_HOME };
     public GhostState state;
 
+    public float releaseDelay = 0f;
+    private bool isPaused = true;
+    private Coroutine releaseRoutine;
+    private Vector3 startPos;
+
+    [Header("Chase")]
+    public float chaseSpeed = 5f;
+
+    [Header("Scatter")]
+    public float scatterSpeed = 5f;
     public Transform[] scatterRoute;
     public int currentScatterDest = 0;
 
+    [Header("Return Home")]
+    public float returningSpeed = 5f;
     public Transform home;
-    private bool wasEaten = false;
 
+    [Header("Materials")]
     public Material chaseMaterial, scatterMaterial, returnHomeMaterial;
 
     // REFERENCES
     private NavMeshAgent navMeshAgent;
     private GhostChaseState chase;
     private MeshRenderer meshRenderer;
-
-    private PowerUpHandler powerUpHandler;
 
     void Start()
     {
@@ -29,46 +40,57 @@ public class GhostBehaviour : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         chaseMaterial = meshRenderer.material;
 
-        powerUpHandler = FindFirstObjectByType<PowerUpHandler>();
+        startPos = transform.position;
+        releaseRoutine = StartCoroutine(ReleaseGhostRoutine());
+    }
+
+    IEnumerator ReleaseGhostRoutine()
+    {
+        yield return new WaitForSeconds(releaseDelay);
+        isPaused = false;
     }
 
     void Update()
     {
+        if (isPaused) { return; }
+
         switch (state)
         {
             case GhostState.CHASE:
                 if(meshRenderer.material != chaseMaterial) { meshRenderer.material = chaseMaterial; }
+                if(navMeshAgent.speed != chaseSpeed) { navMeshAgent.speed = chaseSpeed; }
 
                 chase.ChaseUpdate();
 
-                if (powerUpHandler.IsPoweredUp && !wasEaten)
+                if (gameObject.GetComponent<ClydeChase>())
                 {
-                    state = GhostState.SCATTER;
+                    currentScatterDest = gameObject.GetComponent<ClydeChase>().currentScatterDest;
                 }
 
                 break;
             case GhostState.SCATTER:
                 if (meshRenderer.material != scatterMaterial) { meshRenderer.material = scatterMaterial; }
+                if (navMeshAgent.speed != scatterSpeed) { navMeshAgent.speed = scatterSpeed; }
 
                 ScatterUpdate();
 
-                if (!powerUpHandler.IsPoweredUp)
+                if (gameObject.GetComponent<ClydeChase>())
                 {
-                    state = GhostState.CHASE;
+                    gameObject.GetComponent<ClydeChase>().currentScatterDest = currentScatterDest;
                 }
 
                 break;
             case GhostState.RETURN_HOME:
                 if (meshRenderer.material != returnHomeMaterial) { meshRenderer.material = returnHomeMaterial; }
+                if (navMeshAgent.speed != returningSpeed) { navMeshAgent.speed = returningSpeed; }
 
                 ReturnHomeUpdate();
+
                 break;
             default:
                 Debug.Log("Attempted to update unknown ghost state.");
                 break;
         }
-
-        if (!powerUpHandler.IsPoweredUp && wasEaten) { wasEaten = false; }
     }
 
     private void ScatterUpdate()
@@ -90,10 +112,22 @@ public class GhostBehaviour : MonoBehaviour
     {
         navMeshAgent.destination = home.position;
 
-        if (Vector3.Distance(transform.position, home.position) < 0.1f)
+        if (Vector3.Distance(transform.position, home.position) < 0.5f)
         {
-            wasEaten = true;
             state = GhostState.CHASE;
         }
+    }
+
+    public void ResetGhost()
+    {
+        if (releaseRoutine != null)
+        {
+            StopCoroutine(releaseRoutine);
+        }
+
+        isPaused = true;
+        transform.position = startPos;
+
+        releaseRoutine = StartCoroutine(ReleaseGhostRoutine());
     }
 }
