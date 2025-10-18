@@ -76,6 +76,7 @@ public class PacmanController : MonoBehaviour
                 return;
         }
 
+        transform.LookAt(transform.position + offset);
         navMeshAgent.Move(offset);
     }
 }

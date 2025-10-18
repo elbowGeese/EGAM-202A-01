@@ -7,10 +7,12 @@ public class LivesHandler : MonoBehaviour
 
     // REFERENCES
     private PowerUpHandler powerUpHandler;
+    private LivesDisplay livesDisplay;
 
     private void Start()
     {
         powerUpHandler = FindFirstObjectByType<PowerUpHandler>();
+        livesDisplay = FindFirstObjectByType<LivesDisplay>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,6 +40,7 @@ public class LivesHandler : MonoBehaviour
     public void Damage()
     {
         lives--;
+        livesDisplay.SetDisplay(lives);
 
         if(lives <= 0)
         {
