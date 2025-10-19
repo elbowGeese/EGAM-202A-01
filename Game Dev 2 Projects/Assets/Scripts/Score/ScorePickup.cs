@@ -15,7 +15,10 @@ public class ScorePickup : MonoBehaviour
 
     private void Pickup()
     {
-        FindFirstObjectByType<ScoreHandler>().AddToScore(scoreAdd);
+        // add to score
+        FindFirstObjectByType<ScoreHandler>().AddToScore(scoreAdd, transform.position);
+
+        // destroy this
         Destroy(gameObject);
     }
 }

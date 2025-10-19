@@ -10,15 +10,21 @@ public class PacmanController : MonoBehaviour
 
     public float speed = 5f;
 
+    public Vector3 startPos;
+
+    private bool isPaused = true;
+
     // REFERENCES
     private NavMeshAgent navMeshAgent;
     private InputAction moveAction;
 
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
     void Start()
     {
-        movementState = MovementState.NONE;
-
-        navMeshAgent = GetComponent<NavMeshAgent>();
         moveAction = InputSystem.actions.FindAction("Move");
     }
 
@@ -28,8 +34,22 @@ public class PacmanController : MonoBehaviour
         Move(Time.deltaTime);
     }
 
+    public void ResetPacman()
+    {
+        movementState = MovementState.NONE;
+        navMeshAgent.Warp(startPos);
+        isPaused = true;
+    }
+
+    public void ReleasePacman()
+    {
+        isPaused = false;
+    }
+
     private void ReadInput()
     {
+        if (isPaused) { return; }
+
         Vector2 inputDir = moveAction.ReadValue<Vector2>();
 
         if (inputDir.x > 0f)

@@ -11,7 +11,7 @@ public class GhostBehaviour : MonoBehaviour
     public float releaseDelay = 0f;
     private bool isPaused = true;
     private Coroutine releaseRoutine;
-    private Vector3 startPos;
+    public Vector3 startPos;
 
     [Header("Chase")]
     public float chaseSpeed = 5f;
@@ -33,15 +33,12 @@ public class GhostBehaviour : MonoBehaviour
     private GhostChaseState chase;
     private MeshRenderer meshRenderer;
 
-    void Start()
+    void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         chase = GetComponent<GhostChaseState>();
         meshRenderer = GetComponent<MeshRenderer>();
         chaseMaterial = meshRenderer.material;
-
-        startPos = transform.position;
-        releaseRoutine = StartCoroutine(ReleaseGhostRoutine());
     }
 
     IEnumerator ReleaseGhostRoutine()
@@ -126,8 +123,12 @@ public class GhostBehaviour : MonoBehaviour
         }
 
         isPaused = true;
-        transform.position = startPos;
+        state = GhostState.CHASE;
+        navMeshAgent.Warp(startPos);
+    }
 
+    public void ReleaseGhost()
+    {
         releaseRoutine = StartCoroutine(ReleaseGhostRoutine());
     }
 }

@@ -30,7 +30,7 @@ public class LivesHandler : MonoBehaviour
                     break;
                 case GhostBehaviour.GhostState.SCATTER:
                     // eat
-                    scoreHandler.EatGhost();
+                    scoreHandler.EatGhost(other.transform.position);
                     ghostBehaviour.state = GhostBehaviour.GhostState.RETURN_HOME;
                     break;
                 default:
@@ -47,13 +47,11 @@ public class LivesHandler : MonoBehaviour
 
         if(lives <= 0)
         {
-            Die();
+            FindFirstObjectByType<GameManager>().EndGame();
         }
-    }
-
-    private void Die()
-    {
-        // end game
-        Debug.Log("YOU DIED!");
+        else
+        {
+            FindFirstObjectByType<GameManager>().ResetGame();
+        }
     }
 }
