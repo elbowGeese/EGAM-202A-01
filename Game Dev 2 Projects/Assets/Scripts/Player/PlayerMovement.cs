@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotateSpeed = 30f;
 
+    public bool isPaused = false;
+
     // REFERENCES
     private InputAction moveAction;
     private NavMeshAgent navMeshAgent;
@@ -20,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isPaused) { return; }
+
         // MOVE
         Vector2 inputDir = moveAction.ReadValue<Vector2>();
         Transform cameraHandle = Camera.main.transform;
