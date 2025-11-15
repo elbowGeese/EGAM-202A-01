@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class GameStateManager : MonoBehaviour
     public CharacterData mario;
     public CharacterData goomba;
 
+    private InputAction jumpAction;
+
     private void OnDisable()
     {
         if (currentState != null)
@@ -24,24 +27,37 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+        jumpAction = InputSystem.actions.FindAction("Jump");
+
         InitStates();
         SetState(gameStates[0]);
+    }
+
+    private void Update()
+    {
+        if (jumpAction.WasPressedThisFrame())
+        {
+            MasterButtonPress();
+        }
     }
 
     void InitStates()
     {
         gameStates[0] = new GameState_Idle();
         gameStates[0].buttonMessage = stateButtonMessages[0];
+        gameStates[0].Camera = Camera.main;
         gameStates[0].mario = mario;
         gameStates[0].goomba = goomba;
 
         gameStates[1] = new GameState_Jump();
         gameStates[1].buttonMessage = stateButtonMessages[1];
+        gameStates[1].Camera = Camera.main;
         gameStates[1].mario = mario;
         gameStates[1].goomba = goomba;
 
         gameStates[2] = new GameState_Block();
         gameStates[2].buttonMessage = stateButtonMessages[2];
+        gameStates[2].Camera = Camera.main;
         gameStates[2].mario = mario;
         gameStates[2].goomba = goomba;
     }
@@ -93,14 +109,6 @@ public class GameStateManager : MonoBehaviour
 
         // set state
         SetState(gameStates[nextStateIndex]);
-    }
-
-    void Update()
-    {
-        if (currentState != null)
-        {
-            
-        }
     }
 
     public void MasterButtonPress()
