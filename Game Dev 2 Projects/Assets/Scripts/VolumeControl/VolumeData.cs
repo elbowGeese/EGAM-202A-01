@@ -3,7 +3,7 @@ using UnityEngine;
 public static class VolumeData
 {
     private static float masterVolume = 1f;
-    private static float musicVolume = 1f;
+    private static float musicVolume = 0.4f;
     private static float ambianceVolume = 1f;
     private static float sfxVolume = 1f;
 

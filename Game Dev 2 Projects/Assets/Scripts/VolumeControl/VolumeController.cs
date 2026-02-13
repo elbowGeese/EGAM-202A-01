@@ -17,7 +17,7 @@ public class VolumeController : MonoBehaviour
 
     public void SetVolume(float sliderValue)
     {
-        audioMixer.SetFloat(exposedParam, Mathf.Log10(sliderValue) * 20);
+        audioMixer.SetFloat(exposedParam, Mathf.Log10(Mathf.Max(sliderValue, 0.0001f)) * 20);
         VolumeData.SetVolumeData(dataRef, sliderValue);
     }
 }

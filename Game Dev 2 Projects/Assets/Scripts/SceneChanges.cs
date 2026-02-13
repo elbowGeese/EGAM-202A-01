@@ -12,4 +12,12 @@ public class SceneChanges : MonoBehaviour
     {
         SceneManager.LoadScene(name);
     }
+
+    public int GetCurrentSceneIndex()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        int buildIndex = currentScene.buildIndex;
+
+        return buildIndex;
+    }
 }
